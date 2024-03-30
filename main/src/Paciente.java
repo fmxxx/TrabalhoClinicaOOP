@@ -7,12 +7,12 @@ public class Paciente {
   private ArrayList<Medicamento> medicamentosUsadosAtualmente;
   private ArrayList<String> consultasMarcadas; // Assumi que a consulta é uma string formatada
 
-  public Paciente(int id, String nome) {
+  public Paciente(int id, String nome, ArrayList<String> historicoMedico,
+      ArrayList<Medicamento> medicamentosUsadosAtualmente) {
     this.id = id;
     this.nome = nome;
-    this.historicoMedico = new ArrayList<>();
-    this.medicamentosUsadosAtualmente = new ArrayList<>();
-    this.consultasMarcadas = new ArrayList<>();
+    this.historicoMedico = historicoMedico;
+    this.medicamentosUsadosAtualmente = medicamentosUsadosAtualmente;
   }
 
   // Getters e setters
