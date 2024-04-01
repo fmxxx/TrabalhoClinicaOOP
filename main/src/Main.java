@@ -23,10 +23,30 @@ public class Main {
   public static final String UNDERLINE = "\u001B[4m";
   public static final String REVERSED = "\u001B[7m";
 
-  private static ArrayList<Medico> listaMedicos = new ArrayList<>();
-  private static ArrayList<Paciente> listaPacientes = new ArrayList<>();
+  static ArrayList<Medico> listaMedicos = new ArrayList<>();
+  static ArrayList<Paciente> listaPacientes = new ArrayList<>();
+  private static Agenda agenda = new Agenda();
 
   public static void main(String[] args) {
+    // Medicos default
+    ArrayList<String> especialidadesDefault = new ArrayList<>();
+    especialidadesDefault.add("Cardiologista");
+    ArrayList<String> conveniosDefault = new ArrayList<>();
+    conveniosDefault.add("UNIMED");
+
+    Medico medico = new Medico("Dr. Default", 1, especialidadesDefault, conveniosDefault);
+    listaMedicos.add(medico);
+
+    // Paciente default
+    ArrayList<String> historicoMedicoDefault = new ArrayList<>();
+    historicoMedicoDefault.add("Diabetes");
+    ArrayList<Medicamento> medicamentosUsadosAtualmenteDefault = new ArrayList<>();
+    Medicamento medicamento = new Medicamento("Dipirona", "Oral", "De 3 em 3 horas");
+    medicamentosUsadosAtualmenteDefault.add(medicamento);
+
+    Paciente paciente = new Paciente(2, "Joao", historicoMedicoDefault, medicamentosUsadosAtualmenteDefault);
+    listaPacientes.add(paciente);
+
     Scanner scanner = new Scanner(System.in);
     // MENU INICIAL
     while (true) {
@@ -56,21 +76,25 @@ public class Main {
   }
 
   private static void menuMedico(Scanner scanner) {
-    System.out.println(BLUE + "\n ========== Menu Do Medico ==========" + RESET_COLOR);
+    System.out.println(BLUE + "\n ========== Menu do Medico ==========" + RESET_COLOR);
     System.out.println("1. Cadastrar Medico");
-    System.out.println("2. Ver Agenda do Medico");
-    System.out.println("3. Ver Detalhes do paciente"); // TODO
+    System.out.println("2. Ver Agenda do Medico"); // TODO: MEDICO ESCOLHE O PERIODO
+    // Precisa de criar outro metodo que é chamado nesse menu: HENRIQUE
+    System.out.println("3. Ver Detalhes do Paciente");
+    // TODO: Adicionar opcao "diagnostico pos consulta" que recebe paciente e guarda
+    // nele um array de (bpm, pressao, temperatura, diagnositco, array
+    // list(medicacao receitada), observacoes) : FELIPE M
     System.out.println("0. Voltar");
     System.out.print("Escolha uma opcao: ");
     int opcao = scanner.nextInt();
-    scanner.nextLine(); // Clear the buffer
+    scanner.nextLine();
 
     switch (opcao) {
       case 1:
         cadastrarMedico(scanner);
         break;
       case 2:
-        // verAgendaMedico(scanner);
+        visualizarAgendaMedico(scanner);
         break;
       case 3:
         verDetalhesDoPaciente(scanner);
@@ -79,12 +103,11 @@ public class Main {
         System.err.println("Voltando...");
         break;
       default:
-        System.out.println(RED + "Opcao invalida! Tente novamente." + RESET_COLOR); // ERRO
+        System.out.println(RED + "Opcao invalida! Tente novamente." + RESET_COLOR);
     }
   }
 
   private static void cadastrarMedico(Scanner scanner) {
-    // Gera ID aleatorio comecando com 1
     Random random = new Random();
     int id = 10000 + random.nextInt(90000);
     id = id + 100000;
@@ -115,35 +138,48 @@ public class Main {
       convenios.add(convenio);
     }
 
-    // Criar e adicionar o médico à lista
+    // TODO: Adicionar horarios disponiveis pra consulta (adicionar na classe
+    // medico)
     Medico medico = new Medico(nome, id, especialidades, convenios);
     listaMedicos.add(medico);
-    System.out.println(GREEN + "Medico cadastrado com ID: " + id + RESET_COLOR); // Sucesso
+    System.out.println(GREEN + "Medico cadastrado com ID: " + id + RESET_COLOR);
+  }
+
+  private static void visualizarAgendaMedico(Scanner scanner) {
+    System.out.print("Informe o ID do medico: ");
+    int idMedico = scanner.nextInt();
+    scanner.nextLine();
+
+    agenda.visualizarConsultasMarcadas(idMedico);
   }
 
   private static void menuPaciente(Scanner scanner) {
     System.out.println(BLUE + "\n ========== Menu do Paciente ==========" + RESET_COLOR);
     System.out.println("1. Cadastrar Paciente");
     System.out.println("2. Ver Consultas Marcadas");
-    System.out.println("3. Requisitar Consulta");// TODO
-    System.out.println("3. Ver seus detalhes"); // TODO
+    System.out.println("3. Solicitar Consulta");
     System.out.println("0. Voltar");
+    // TODO: Opcao para remover informacoes como doencas e medicamentos usados:
+    // CARDOSO OU CUNHA
     System.out.print("Escolha uma opcao: ");
     int opcao = scanner.nextInt();
-    scanner.nextLine(); // Clear the buffer
+    scanner.nextLine();
 
     switch (opcao) {
       case 1:
         cadastrarPaciente(scanner);
         break;
       case 2:
-        // verConsultasMarcadas(scanner);
+        verConsultasMarcadasPaciente(scanner);
+        break;
+      case 3:
+        solicitarConsulta(scanner);
         break;
       case 0:
         System.err.println("Voltando...");
         break;
       default:
-        System.out.println(RED + "Opcao invalida! Tente novamente." + RESET_COLOR); // ERRO
+        System.out.println(RED + "Opcao invalida! Tente novamente." + RESET_COLOR);
     }
   }
 
@@ -186,10 +222,79 @@ public class Main {
       medicamentosUsadosAtualmente.add(new Medicamento(uso, descricao, periodoDeUso));
     }
 
-    // Criar e adicionar o paciente à lista
+    // Criar e adicionar o paciente a lista
     Paciente paciente = new Paciente(id, nome, historicoMedico, medicamentosUsadosAtualmente);
     listaPacientes.add(paciente);
     System.out.println(GREEN + "Paciente cadastrado com ID: " + id + RESET_COLOR); // Sucesso
+  }
+
+  private static void solicitarConsulta(Scanner scanner) {
+    System.out.println(BLUE + "\n ========== Solicitar Consulta ==========" + RESET_COLOR);
+    System.out.print("Informe o ID do medico: ");
+    int idMedico = scanner.nextInt();
+    scanner.nextLine();
+
+    // Solicitar o ID do paciente
+    System.out.print("Informe o ID do paciente: ");
+    int idPaciente = scanner.nextInt();
+    scanner.nextLine();
+
+    // TODO: Encapsular data e horario (ex: 10/03/2000 tem que ser igual a 1030200):
+    // FELIPE M
+    // Tirar tudo q n for numero dps adiconar '/' dps de 2 e 2 numeros
+    System.out.print("Data da consulta (DD/MM/AAAA): ");
+    String data = scanner.nextLine();
+    System.out.print("Horario da consulta (HH:MM): ");
+    String horario = scanner.nextLine();
+    System.out.print("Motivo da consulta: ");
+    String motivo = scanner.nextLine();
+    System.out.print("A consulta eh um retorno? (sim/nao): ");
+    String entradaBool = scanner.nextLine().toLowerCase();
+    boolean ehRetorno = parseBooleanInput(entradaBool);
+    // TODO: Verificar se o horario de consulta bate com o horario de atendimento do
+    // medico especificado: CARDOSO OU CUNHA
+
+    Consulta consulta = new Consulta(data, horario, idPaciente, "", idMedico, "", motivo, ehRetorno);
+    agenda.adicionarConsulta(idMedico, consulta);
+    System.out.println(GREEN + "Consulta solicitada com sucesso!" + RESET_COLOR);
+  }
+
+  public static boolean parseBooleanInput(String entrada) {
+    // Define quais strings sao true e false
+    String[] trueValues = { "sim", "s", "yes", "y", "true", "t", "v" };
+    String[] falseValues = { "nao", "n", "no", "false", "f" };
+
+    // Testa se a entrada eh algum dos valores acima
+    for (String trueValue : trueValues) {
+      if (entrada.equals(trueValue)) {
+        return true;
+      }
+    }
+    for (String falseValue : falseValues) {
+      if (entrada.equals(falseValue)) {
+        return false;
+      }
+    }
+
+    // Retorna false caso os valores nao batam
+    return false;
+  }
+
+  private static void verConsultasMarcadasPaciente(Scanner scanner) { // TODO Mover pra classe Paciente: FELIPE M
+    System.out.print("Insira o ID do paciente: ");
+    int idPaciente = scanner.nextInt();
+    scanner.nextLine();
+
+    for (Consulta consulta : agenda.getConsultasMarcadas()) {
+      if (idPaciente == consulta.getIdPaciente()) {
+        System.out.println(BLUE + "\n ========== Consultas Marcadas ==========" + RESET_COLOR);
+        System.out.println("Data: " + consulta.getData());
+        System.out.println("Horario: " + consulta.getHorario());
+        System.out.println("Medico: " + consulta.getNomeMedico());
+        System.out.println("Motivo: " + consulta.getMotivo());
+        System.out.println();
+      }
+    }
   }
 
   private static void verDetalhesDoPaciente(Scanner scanner) {
@@ -200,9 +305,10 @@ public class Main {
     // Encontrar o paciente
     for (Paciente paciente : listaPacientes) {
       if (idBuscado == paciente.getId()) {
+        System.out.println(BLUE + "\n ========== Detalhes Do Paciente ==========" + RESET_COLOR);
         System.out.println("ID: " + paciente.getId());
         System.out.println("Nome: " + paciente.getNome());
-        System.out.println("Histórico Médico:");
+        System.out.println("Historico Medico:");
         for (String historico : paciente.getHistoricoMedico()) {
           System.out.println("- " + historico);
         }
@@ -211,11 +317,7 @@ public class Main {
           System.out.println(
               "- " + medicamento.getUso() + ", " + medicamento.getDescricao() + ", " + medicamento.getPeriodoDeUso());
         }
-        // System.out.println("Consultas Marcadas:");
-        // for (String consulta : paciente.getConsultasMarcadas()) {
-        // System.out.println("- " + consulta);
-        // }
-        // Add more properties as needed
+        // VER CONSULTAS
       }
     }
   }

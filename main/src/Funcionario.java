@@ -7,7 +7,6 @@ public class Funcionario {
     this.id = id;
   }
 
-  // Getters e setters
   public String getNome() {
     return nome;
   }
