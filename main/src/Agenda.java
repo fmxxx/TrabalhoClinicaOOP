@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Agenda {
   // MACROS CORES ANSI
@@ -53,7 +54,11 @@ public class Agenda {
     return consultasMarcadas;
   }
 
-  public void visualizarConsultasMarcadas(int idMedico) {
+  public void verAgendaMedica(Scanner scanner) {
+    System.out.print("Informe o ID do medico: ");
+    int idMedico = scanner.nextInt();
+    scanner.nextLine();
+
     System.out.println(Main.BLUE + "\n ========== Agenda do Medico ==========" + Main.RESET_COLOR);
     for (Consulta consulta : consultasMarcadas) {
       if (consulta.getIdMedico() == idMedico) {
@@ -62,7 +67,9 @@ public class Agenda {
         System.out.println("Paciente: " + consulta.getNomePaciente());
         System.out.println("Motivo: " + consulta.getMotivo());
         System.out.println("Eh retorno: " + (consulta.isEhRetorno() ? "Sim" : "Nao"));
+        System.out.println("---------------------------------------");
       }
     }
   }
+
 }
