@@ -18,38 +18,41 @@ public class Paciente {
     this.medicamentosUsadosAtualmente = medicamentosUsadosAtualmente;
   }
 
+  // Getters
   public int getId() {
     return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
   }
 
   public String getNome() {
     return nome;
   }
 
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
-
   public ArrayList<String> getHistoricoMedico() {
     return historicoMedico;
-  }
-
-  public void setHistoricoMedico(ArrayList<String> historicoMedico) {
-    this.historicoMedico = historicoMedico;
   }
 
   public ArrayList<Medicamento> getMedicamentosUsadosAtualmente() {
     return medicamentosUsadosAtualmente;
   }
 
+  // Setters
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
+
+  public void setHistoricoMedico(ArrayList<String> historicoMedico) {
+    this.historicoMedico = historicoMedico;
+  }
+
   public void setMedicamentosUsadosAtualmente(ArrayList<Medicamento> medicamentosUsadosAtualmente) {
     this.medicamentosUsadosAtualmente = medicamentosUsadosAtualmente;
   }
 
+  // Metodos
   public static void menuPaciente(Scanner scanner) {
     System.out.println(Main.BLUE + "\n ========== Menu do Paciente ==========" + Main.RESET_COLOR);
     System.out.println("1. Cadastrar Paciente");

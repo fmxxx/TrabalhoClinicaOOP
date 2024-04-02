@@ -12,22 +12,25 @@ public class Medico extends Funcionario {
     this.convenios = convenios;
   }
 
+  // Getters
   public ArrayList<String> getEspecialidades() {
     return especialidades;
-  }
-
-  public void setEspecialidades(ArrayList<String> especialidades) {
-    this.especialidades = especialidades;
   }
 
   public ArrayList<String> getConvenios() {
     return convenios;
   }
 
+  public void setEspecialidades(ArrayList<String> especialidades) {
+    this.especialidades = especialidades;
+  }
+
+  // Setters
   public void setConvenios(ArrayList<String> convenios) {
     this.convenios = convenios;
   }
 
+  // Metodos
   public static void menuMedico(Scanner scanner) {
     System.out.println(Main.BLUE + "\n ========== Menu do Medico ==========" + Main.RESET_COLOR);
     System.out.println("1. Cadastrar Medico");

@@ -7,19 +7,22 @@ public class Funcionario {
     this.id = id;
   }
 
+  // Getters
   public String getNome() {
     return nome;
-  }
-
-  public void setNome(String nome) {
-    this.nome = nome;
   }
 
   public int getId() {
     return id;
   }
 
+  // Setters
   public void setId(int id) {
     this.id = id;
   }
+
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
+
 }
