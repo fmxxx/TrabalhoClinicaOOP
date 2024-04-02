@@ -2,23 +2,11 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Agenda {
-  // MACROS CORES ANSI
-  public static final String RESET_COLOR = "\u001B[0m";
-  public static final String BLACK = "\u001B[30m";
-  public static final String RED = "\u001B[31m";
-  public static final String GREEN = "\u001B[32m";
-  public static final String YELLOW = "\u001B[33m";
-  public static final String BLUE = "\u001B[34m";
-  public static final String PURPLE = "\u001B[35m";
-  public static final String CYAN = "\u001B[36m";
-  public static final String WHITE = "\u001B[37m";
-
-  // ESTILOS ANSI
-  public static final String BOLD = "\u001B[1m";
-  public static final String UNDERLINE = "\u001B[4m";
-  public static final String REVERSED = "\u001B[7m";
-
   private ArrayList<Consulta> consultasMarcadas = new ArrayList<>();
+
+  public ArrayList<Consulta> getConsultasMarcadas() {
+    return consultasMarcadas;
+  }
 
   public void adicionarConsulta(int idMedico, Consulta consulta) {
     consulta.setIdMedico(idMedico);
@@ -42,16 +30,12 @@ public class Agenda {
       if (consultaExistente.getData() != null && consultaExistente.getHorario() != null &&
           consultaExistente.getData().equals(consulta.getData()) &&
           consultaExistente.getHorario().equals(consulta.getHorario())) {
-        System.out.println(RED + "ERRO: Conflito de horarios." + RESET_COLOR);
+        System.out.println(Main.RED + "ERRO: Conflito de horarios." + Main.RESET_COLOR);
         return;
       }
     }
 
     consultasMarcadas.add(consulta);
-  }
-
-  public ArrayList<Consulta> getConsultasMarcadas() {
-    return consultasMarcadas;
   }
 
   public void verAgendaMedica(Scanner scanner) {
