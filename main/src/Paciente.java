@@ -7,6 +7,8 @@ public class Paciente {
   private String nome;
   private ArrayList<String> historicoMedico;
   private ArrayList<Medicamento> medicamentosUsadosAtualmente;
+  private static ArrayList<RelatorioPosConsulta> listaRelatoriosPosConsulta;
+
   // TODO: COLOCAR dados pos consulta/diagnositco, sao incializados vazios, mas
   // dps da pra colocar um array list (so o medico coloca): FELIPE M
 
@@ -15,40 +17,6 @@ public class Paciente {
     this.id = id;
     this.nome = nome;
     this.historicoMedico = historicoMedico;
-    this.medicamentosUsadosAtualmente = medicamentosUsadosAtualmente;
-  }
-
-  // Getters
-  public int getId() {
-    return id;
-  }
-
-  public String getNome() {
-    return nome;
-  }
-
-  public ArrayList<String> getHistoricoMedico() {
-    return historicoMedico;
-  }
-
-  public ArrayList<Medicamento> getMedicamentosUsadosAtualmente() {
-    return medicamentosUsadosAtualmente;
-  }
-
-  // Setters
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public void setNome(String nome) {
-    this.nome = nome;
-  }
-
-  public void setHistoricoMedico(ArrayList<String> historicoMedico) {
-    this.historicoMedico = historicoMedico;
-  }
-
-  public void setMedicamentosUsadosAtualmente(ArrayList<Medicamento> medicamentosUsadosAtualmente) {
     this.medicamentosUsadosAtualmente = medicamentosUsadosAtualmente;
   }
 
@@ -97,8 +65,6 @@ public class Paciente {
     String nome = scanner.nextLine();
 
     ArrayList<String> historicoMedico = new ArrayList<>();
-    ArrayList<Medicamento> medicamentosUsadosAtualmente = new ArrayList<>();
-
     System.out.println("\nInforme o historico medico do paciente (digite '0' para parar): ");
     while (true) {
       System.out.print("Historico medico: ");
@@ -109,6 +75,7 @@ public class Paciente {
       historicoMedico.add(historico);
     }
 
+    ArrayList<Medicamento> medicamentosUsadosAtualmente = new ArrayList<>();
     System.out.println("\nInforme os medicamentos usados atualmente pelo paciente (digite '0' para parar): ");
     while (true) {
       System.out.print("Medicamento: ");
@@ -151,11 +118,10 @@ public class Paciente {
 
   public static void solicitarConsulta(Scanner scanner) {
     System.out.println(Main.BLUE + "\n ========== Solicitar Consulta ==========" + Main.RESET_COLOR);
+
     System.out.print("Informe o ID do medico: ");
     int idMedico = scanner.nextInt();
     scanner.nextLine(); // Limpar o buffer
-
-    // Solicitar o ID do paciente
     System.out.print("Informe o ID do paciente: ");
     int idPaciente = scanner.nextInt();
     scanner.nextLine(); // Limpar o buffer
@@ -167,7 +133,7 @@ public class Paciente {
       System.out.print("Data da consulta (DD/MM/AAAA): ");
       data = EncapsulamentoAndErros.encapsularData(scanner.nextLine());
     } while (data.isEmpty());
-    String horario;
+    String horario = "";
     do {
       System.out.print("Horario da consulta (HH:MM): ");
       horario = EncapsulamentoAndErros.encapsularHorario(scanner.nextLine());
@@ -210,6 +176,105 @@ public class Paciente {
       }
     }
     System.out.println(Main.RED + "ERRO: Paciente não encontrado." + Main.RESET_COLOR);
+  }
+
+  public static void adicionarRelatorioAoPaciente(Scanner scanner) {
+    System.out.println(Main.BLUE + "\n ========== Adicionar Diagnostico ==========" + Main.RESET_COLOR);
+
+    // TODO: FAZER ENCONTRAR O PACIENTE PELO ID
+    System.out.print("Informe o ID do medico: ");
+    int idMedico = scanner.nextInt();
+    scanner.nextLine(); // Limpar o buffer
+    System.out.print("Informe o ID do paciente: ");
+    int idPaciente = scanner.nextInt();
+    scanner.nextLine(); // Limpar o buffer
+
+    // Faz um loop para o usuario reeinserir os dados se nao estiverem no fomato
+    // correto
+    // TODO: Funciona bem na hora de solicitar consulta mas nao aqui
+
+    String data = "";
+    do {
+      System.out.print("Data da consulta (DD/MM/AAAA): ");
+      data = EncapsulamentoAndErros.encapsularData(scanner.nextLine());
+    } while (data.isEmpty());
+
+    double batimentosCardiacosPorMin = scanner.nextDouble();
+    scanner.nextLine(); // Limpar o buffer
+    double temperaturaCelsius = scanner.nextDouble();
+    scanner.nextLine(); // Limpar o buffer
+    System.out.print("Pressao Arterial: ");
+    String pressaoArterial = scanner.nextLine();
+
+    ArrayList<String> diagnosticos = new ArrayList<>();
+    System.out.println("\nInforme os diagnosticos (digite '0' para parar): ");
+    while (true) {
+      System.out.print("Diagnostico: ");
+      String diagnostico = scanner.nextLine();
+      if (diagnostico.equals("0")) {
+        break;
+      }
+      diagnosticos.add(diagnostico);
+    }
+
+    ArrayList<Medicamento> medicamentosReceitados = new ArrayList<>();
+    System.out.println("\nInforme os medicamentos receitados para o paciente (digite '0' para parar): ");
+    while (true) {
+      System.out.print("Medicamento: ");
+      String nomeMedicamento = scanner.nextLine();
+      if (nomeMedicamento.equals("0")) {
+        break;
+      }
+      System.out.print("Uso: ");
+      String uso = scanner.nextLine();
+      System.out.print("Descricao: ");
+      String descricao = scanner.nextLine();
+      System.out.print("Periodo de uso: ");
+      String periodoDeUso = scanner.nextLine();
+
+      medicamentosReceitados.add(new Medicamento(uso, descricao, periodoDeUso));
+    }
+
+    RelatorioPosConsulta novoRelatorioPosConsulta = new RelatorioPosConsulta(data, idMedico, batimentosCardiacosPorMin,
+        temperaturaCelsius,
+        pressaoArterial, diagnosticos, medicamentosReceitados);
+
+    Paciente.listaRelatoriosPosConsulta.add(novoRelatorioPosConsulta);
+    System.out.println(Main.GREEN + "Relatorio Adicionado com sucesso!" + Main.RESET_COLOR);
+  }
+
+  // Getters
+  public int getId() {
+    return id;
+  }
+
+  public String getNome() {
+    return nome;
+  }
+
+  public ArrayList<String> getHistoricoMedico() {
+    return historicoMedico;
+  }
+
+  public ArrayList<Medicamento> getMedicamentosUsadosAtualmente() {
+    return medicamentosUsadosAtualmente;
+  }
+
+  // Setters
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public void setNome(String nome) {
+    this.nome = nome;
+  }
+
+  public void setHistoricoMedico(ArrayList<String> historicoMedico) {
+    this.historicoMedico = historicoMedico;
+  }
+
+  public void setMedicamentosUsadosAtualmente(ArrayList<Medicamento> medicamentosUsadosAtualmente) {
+    this.medicamentosUsadosAtualmente = medicamentosUsadosAtualmente;
   }
 
 }

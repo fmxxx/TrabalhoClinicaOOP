@@ -12,24 +12,6 @@ public class Medico extends Funcionario {
     this.convenios = convenios;
   }
 
-  // Getters
-  public ArrayList<String> getEspecialidades() {
-    return especialidades;
-  }
-
-  public ArrayList<String> getConvenios() {
-    return convenios;
-  }
-
-  public void setEspecialidades(ArrayList<String> especialidades) {
-    this.especialidades = especialidades;
-  }
-
-  // Setters
-  public void setConvenios(ArrayList<String> convenios) {
-    this.convenios = convenios;
-  }
-
   // Metodos
   public static void menuMedico(Scanner scanner) {
     System.out.println(Main.BLUE + "\n ========== Menu do Medico ==========" + Main.RESET_COLOR);
@@ -37,9 +19,7 @@ public class Medico extends Funcionario {
     System.out.println("2. Ver Agenda do Medico"); // TODO: MEDICO ESCOLHE O PERIODO
     // Precisa de criar outro metodo que é chamado nesse menu: HENRIQUE
     System.out.println("3. Ver Detalhes do Paciente");
-    // TODO: Adicionar opcao "diagnostico pos consulta" que recebe paciente e guarda
-    // nele um array de (bpm, pressao, temperatura, diagnositco, array
-    // list(medicacao receitada), observacoes) : FELIPE M
+    System.out.println("4. Adicionar Relatorio Pos Consulta ao um Paciente");
     System.out.println("0. Voltar");
     System.out.print("Escolha uma opcao: ");
     int opcao = scanner.nextInt();
@@ -54,6 +34,9 @@ public class Medico extends Funcionario {
         break;
       case 3:
         Paciente.verDetalhesDoPaciente(scanner);
+        break;
+      case 4:
+        Paciente.adicionarRelatorioAoPaciente(scanner);
         break;
       case 0:
         System.out.println("Voltando...");
@@ -72,8 +55,6 @@ public class Medico extends Funcionario {
     String nome = scanner.nextLine();
 
     ArrayList<String> especialidades = new ArrayList<>();
-    ArrayList<String> convenios = new ArrayList<>();
-
     System.out.println("\nInforme as especialidades do medico (digite '0' para parar): ");
     while (true) {
       System.out.print("Especialidade: ");
@@ -84,6 +65,7 @@ public class Medico extends Funcionario {
       especialidades.add(especialidade);
     }
 
+    ArrayList<String> convenios = new ArrayList<>();
     System.out.println("\nInforme os convenios do medico (digite '0' para parar): ");
     while (true) {
       System.out.print("Convenio: ");
@@ -99,6 +81,24 @@ public class Medico extends Funcionario {
     Medico medico = new Medico(nome, id, especialidades, convenios);
     Main.listaMedicos.add(medico);
     System.out.println(Main.GREEN + "Medico cadastrado com ID: " + id + Main.RESET_COLOR);
+  }
+
+  // Getters
+  public ArrayList<String> getEspecialidades() {
+    return especialidades;
+  }
+
+  public ArrayList<String> getConvenios() {
+    return convenios;
+  }
+
+  public void setEspecialidades(ArrayList<String> especialidades) {
+    this.especialidades = especialidades;
+  }
+
+  // Setters
+  public void setConvenios(ArrayList<String> convenios) {
+    this.convenios = convenios;
   }
 
 }
