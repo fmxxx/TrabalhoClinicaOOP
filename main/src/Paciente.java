@@ -55,12 +55,13 @@ public class Paciente {
     System.out.println("1. Cadastrar Paciente");
     System.out.println("2. Ver Consultas Marcadas");
     System.out.println("3. Solicitar Consulta"); // TODO: Adicionar lista dos medicos disponiveis CARDOSO
+    System.out.println("4. Ver Detalhes do Paciente");
     System.out.println("0. Voltar");
     // TODO: Opcao para remover informacoes como doencas e medicamentos usados:
     // CUNHA
     System.out.print("Escolha uma opcao: ");
     int opcao = scanner.nextInt();
-    scanner.nextLine();
+    scanner.nextLine(); // Limpar o buffer
 
     switch (opcao) {
       case 1:
@@ -71,6 +72,9 @@ public class Paciente {
         break;
       case 3:
         Paciente.solicitarConsulta(scanner);
+        break;
+      case 4:
+        Paciente.verDetalhesDoPaciente(scanner);
         break;
       case 0:
         System.err.println("Voltando...");
@@ -128,9 +132,9 @@ public class Paciente {
   public static void verConsultasMarcadas(Scanner scanner) {
     System.out.print("Insira o ID do paciente: ");
     int idPaciente = scanner.nextInt();
-    scanner.nextLine();
+    scanner.nextLine(); // Limpar o buffer
 
-    for (Consulta consulta : Main.agenda.getConsultasMarcadas()) {
+    for (Consulta consulta : Main.listaAgenda.getConsultasMarcadas()) {
       if (idPaciente == consulta.getIdPaciente()) {
         System.out.println(Main.BLUE + "\n ========== Consultas Marcadas ==========" + Main.RESET_COLOR);
         System.out.println("Data: " + consulta.getData());
@@ -146,12 +150,12 @@ public class Paciente {
     System.out.println(Main.BLUE + "\n ========== Solicitar Consulta ==========" + Main.RESET_COLOR);
     System.out.print("Informe o ID do medico: ");
     int idMedico = scanner.nextInt();
-    scanner.nextLine();
+    scanner.nextLine(); // Limpar o buffer
 
     // Solicitar o ID do paciente
     System.out.print("Informe o ID do paciente: ");
     int idPaciente = scanner.nextInt();
-    scanner.nextLine();
+    scanner.nextLine(); // Limpar o buffer
 
     // Faz um loop para o usuario reeinserir os dados se nao estiverem no fomato
     // correto
@@ -175,14 +179,14 @@ public class Paciente {
     // medico especificado: CARDOSO OU CUNHA
 
     Consulta consulta = new Consulta(data, horario, idPaciente, "", idMedico, "", motivo, ehRetorno);
-    Main.agenda.adicionarConsulta(idMedico, consulta);
+    Main.listaAgenda.adicionarConsulta(idMedico, consulta);
     System.out.println(Main.GREEN + "Consulta solicitada com sucesso!" + Main.RESET_COLOR);
   }
 
   public static void verDetalhesDoPaciente(Scanner scanner) {
     System.out.print("Insira o ID do paciente: ");
     int idPaciente = scanner.nextInt();
-    scanner.nextLine();
+    scanner.nextLine(); // Limpar o buffer
 
     for (Paciente paciente : Main.listaPacientes) {
       if (idPaciente == paciente.getId()) {

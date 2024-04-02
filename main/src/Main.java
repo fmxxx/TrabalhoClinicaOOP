@@ -21,29 +21,35 @@ public class Main {
 
   static ArrayList<Medico> listaMedicos = new ArrayList<>();
   static ArrayList<Paciente> listaPacientes = new ArrayList<>();
-  public static Agenda agenda = new Agenda();
+  public static Agenda listaAgenda = new Agenda();
 
   public static void main(String[] args) {
-    // Medico default
-    ArrayList<String> especialidadesDefault = new ArrayList<>();
-    especialidadesDefault.add("Cardiologista");
-    ArrayList<String> conveniosDefault = new ArrayList<>();
-    conveniosDefault.add("UNIMED");
+    criarEntidadesPadrao();
+    menuPrincipal();
+  }
 
-    Medico medico = new Medico("Dr. Default", 1, especialidadesDefault, conveniosDefault);
+  public static void criarEntidadesPadrao() {
+    // Medico padrao
+    ArrayList<String> especialidadesPadrao = new ArrayList<>();
+    especialidadesPadrao.add("Cardiologista");
+    ArrayList<String> conveniosPadrao = new ArrayList<>();
+    conveniosPadrao.add("UNIMED");
+
+    Medico medico = new Medico("Dr. Willem Default", 1, especialidadesPadrao, conveniosPadrao);
     listaMedicos.add(medico);
 
-    // Paciente default
-    ArrayList<String> historicoMedicoDefault = new ArrayList<>();
-    historicoMedicoDefault.add("Diabetes");
-    ArrayList<Medicamento> medicamentosUsadosAtualmenteDefault = new ArrayList<>();
+    // Paciente padrao
+    ArrayList<String> historicoMedicoPadrao = new ArrayList<>();
+    historicoMedicoPadrao.add("Diabetes");
+    ArrayList<Medicamento> medicamentosUsadosAtualmentePadrao = new ArrayList<>();
     Medicamento medicamento = new Medicamento("Dipirona", "Oral", "De 3 em 3 horas");
-    medicamentosUsadosAtualmenteDefault.add(medicamento);
+    medicamentosUsadosAtualmentePadrao.add(medicamento);
 
-    Paciente paciente = new Paciente(2, "Joao", historicoMedicoDefault, medicamentosUsadosAtualmenteDefault);
+    Paciente paciente = new Paciente(2, "Joao", historicoMedicoPadrao, medicamentosUsadosAtualmentePadrao);
     listaPacientes.add(paciente);
+  }
 
-    // MENU INICIAL
+  private static void menuPrincipal() {
     Scanner scanner = new Scanner(System.in);
     while (true) {
       System.out.println(BLUE + "\n ========== Menu ==========" + RESET_COLOR);
@@ -52,7 +58,7 @@ public class Main {
       System.out.println("0. Sair");
       System.out.print("Escolha uma opcao: ");
       int opcao = scanner.nextInt();
-      scanner.nextLine(); // Clear the buffer
+      scanner.nextLine(); // Limpar o buffer
 
       switch (opcao) {
         case 1:
@@ -70,5 +76,4 @@ public class Main {
       }
     }
   }
-
 }
