@@ -57,7 +57,7 @@ public class Agenda {
   public void verAgendaMedica(Scanner scanner) {
     System.out.print("Informe o ID do medico: ");
     int idMedico = scanner.nextInt();
-    scanner.nextLine();
+    scanner.nextLine(); // Limpar o buffer
 
     System.out.println(Main.BLUE + "\n ========== Agenda do Medico ==========" + Main.RESET_COLOR);
     for (Consulta consulta : consultasMarcadas) {
