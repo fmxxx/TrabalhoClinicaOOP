@@ -28,7 +28,7 @@ public class Main {
   private static Agenda agenda = new Agenda();
 
   public static void main(String[] args) {
-    // Medicos default
+    // Medico default
     ArrayList<String> especialidadesDefault = new ArrayList<>();
     especialidadesDefault.add("Cardiologista");
     ArrayList<String> conveniosDefault = new ArrayList<>();
@@ -157,10 +157,10 @@ public class Main {
     System.out.println(BLUE + "\n ========== Menu do Paciente ==========" + RESET_COLOR);
     System.out.println("1. Cadastrar Paciente");
     System.out.println("2. Ver Consultas Marcadas");
-    System.out.println("3. Solicitar Consulta");
+    System.out.println("3. Solicitar Consulta"); // TODO: Adicionar lista dos medicos disponiveis CARDOSO
     System.out.println("0. Voltar");
     // TODO: Opcao para remover informacoes como doencas e medicamentos usados:
-    // CARDOSO OU CUNHA
+    // CUNHA
     System.out.print("Escolha uma opcao: ");
     int opcao = scanner.nextInt();
     scanner.nextLine();
