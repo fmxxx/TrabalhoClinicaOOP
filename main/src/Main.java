@@ -43,8 +43,8 @@ public class Main {
     Paciente paciente = new Paciente(2, "Joao", historicoMedicoDefault, medicamentosUsadosAtualmenteDefault);
     listaPacientes.add(paciente);
 
-    Scanner scanner = new Scanner(System.in);
     // MENU INICIAL
+    Scanner scanner = new Scanner(System.in);
     while (true) {
       System.out.println(BLUE + "\n ========== Menu ==========" + RESET_COLOR);
       System.out.println("1. Medico");
