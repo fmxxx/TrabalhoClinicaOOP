@@ -16,8 +16,7 @@ public class Medico extends Funcionario {
   public static void menuMedico(Scanner scanner) {
     System.out.println(Main.BLUE + "\n ========== Menu do Medico ==========" + Main.RESET_COLOR);
     System.out.println("1. Cadastrar Medico");
-    System.out.println("2. Ver Agenda do Medico"); // TODO: MEDICO ESCOLHE O PERIODO
-    // Precisa de criar outro metodo que é chamado nesse menu: HENRIQUE
+    System.out.println("2. Ver Agenda do Medico");
     System.out.println("3. Ver Detalhes do Paciente");
     System.out.println("4. Adicionar Relatorio Pos Consulta ao um Paciente");
     System.out.println("0. Voltar");
@@ -76,11 +75,27 @@ public class Medico extends Funcionario {
       convenios.add(convenio);
     }
 
-    // TODO: Adicionar horarios disponiveis pra consulta (adicionar na classe
-    // medico)
     Medico medico = new Medico(nome, id, especialidades, convenios);
     Main.listaMedicos.add(medico);
     System.out.println(Main.GREEN + "Medico cadastrado com ID: " + id + Main.RESET_COLOR);
+  }
+
+  public static void exibirMedicosDisponiveis(ArrayList<Medico> medicos) {
+    System.out.println("\n========== Lista Dos Medicos Disponiveis ==========");
+    for (Medico medico : medicos) {
+      System.out.println("Nome: " + medico.getNome());
+      System.out.println("ID: " + medico.getId());
+      System.out.println("Especialidades:");
+      for (String especialidade : medico.getEspecialidades()) {
+        System.out.println("- " + especialidade);
+      }
+      System.out.println("Convenios:");
+      for (String convenio : medico.getConvenios()) {
+        System.out.println("- " + convenio);
+      }
+      System.out.print("==============================================");
+    }
+    System.out.println();
   }
 
   // Getters

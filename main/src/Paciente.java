@@ -25,7 +25,7 @@ public class Paciente {
     System.out.println(Main.BLUE + "\n ========== Menu do Paciente ==========" + Main.RESET_COLOR);
     System.out.println("1. Cadastrar Paciente");
     System.out.println("2. Ver Consultas Marcadas");
-    System.out.println("3. Solicitar Consulta"); // TODO: Adicionar lista dos medicos disponiveis CARDOSO
+    System.out.println("3. Solicitar Consulta");
     System.out.println("4. Ver Detalhes do Paciente");
     System.out.println("0. Voltar");
     // TODO: Opcao para remover informacoes como doencas e medicamentos usados:
@@ -96,7 +96,7 @@ public class Paciente {
     // Criar e adicionar o paciente a lista
     Paciente paciente = new Paciente(id, nome, historicoMedico, medicamentosUsadosAtualmente);
     Main.listaPacientes.add(paciente);
-    System.out.println(Main.GREEN + "Paciente cadastrado com ID: " + id + Main.RESET_COLOR); // Sucesso
+    System.out.println(Main.GREEN + "Paciente cadastrado com ID: " + id + " Lembre-se de o anotar" + Main.RESET_COLOR); // Sucesso
   }
 
   public static void verConsultasMarcadas(Scanner scanner) {
@@ -119,6 +119,8 @@ public class Paciente {
   public static void solicitarConsulta(Scanner scanner) {
     System.out.println(Main.BLUE + "\n ========== Solicitar Consulta ==========" + Main.RESET_COLOR);
 
+    Medico.exibirMedicosDisponiveis(Main.listaMedicos);
+    System.out.println();
     System.out.print("Informe o ID do medico: ");
     int idMedico = scanner.nextInt();
     scanner.nextLine(); // Limpar o buffer
@@ -126,12 +128,13 @@ public class Paciente {
     int idPaciente = scanner.nextInt();
     scanner.nextLine(); // Limpar o buffer
 
-    // Faz um loop para o usuario reeinserir os dados se nao estiverem no fomato
+    // Faz um loop para o usuario reeinserir os dados se nao estiveresm no fomato
     // correto
     String data = "";
     do {
       System.out.print("Data da consulta (DD/MM/AAAA): ");
-      data = EncapsulamentoAndErros.encapsularData(scanner.nextLine());
+      String temp = scanner.nextLine();
+      data = EncapsulamentoAndErros.encapsularData(temp);
     } while (data.isEmpty());
     String horario = "";
     do {
@@ -144,8 +147,6 @@ public class Paciente {
     System.out.print("A consulta eh um retorno? (sim/nao): ");
     String entradaBool = scanner.nextLine().toLowerCase();
     boolean ehRetorno = EncapsulamentoAndErros.analisarEntradaBool(entradaBool);
-    // TODO: Verificar se o horario de consulta bate com o horario de atendimento do
-    // medico especificado: CARDOSO OU CUNHA
 
     Consulta consulta = new Consulta(data, horario, idPaciente, "", idMedico, "", motivo, ehRetorno);
     Main.listaAgenda.adicionarConsulta(idMedico, consulta);
@@ -191,16 +192,17 @@ public class Paciente {
 
     // Faz um loop para o usuario reeinserir os dados se nao estiverem no fomato
     // correto
-    // TODO: Funciona bem na hora de solicitar consulta mas nao aqui
-
     String data = "";
     do {
       System.out.print("Data da consulta (DD/MM/AAAA): ");
-      data = EncapsulamentoAndErros.encapsularData(scanner.nextLine());
+      String temp = scanner.nextLine();
+      data = EncapsulamentoAndErros.encapsularData(temp);
     } while (data.isEmpty());
 
+    System.out.print("Batimentos Cardiacos por Minuto: ");
     double batimentosCardiacosPorMin = scanner.nextDouble();
     scanner.nextLine(); // Limpar o buffer
+    System.out.print("Temperatura em Celsius: ");
     double temperaturaCelsius = scanner.nextDouble();
     scanner.nextLine(); // Limpar o buffer
     System.out.print("Pressao Arterial: ");
