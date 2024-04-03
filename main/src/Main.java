@@ -1,9 +1,11 @@
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
-  // MACROS CORES ANSI
+  // MACROS CORES ANSI (NAO FUNCIONA DO CMD, mas funciona no alacritty e terminal
+  // do vscode)
   public static final String RESET_COLOR = "\u001B[0m";
   public static final String BLACK = "\u001B[30m";
   public static final String RED = "\u001B[31m";
@@ -56,9 +58,18 @@ public class Main {
       System.out.println("1. Medico");
       System.out.println("2. Paciente");
       System.out.println("0. Sair");
-      System.out.print("Escolha uma opcao: ");
-      int opcao = scanner.nextInt();
-      scanner.nextLine(); // Limpar o buffer
+      int opcao;
+      while (true) {
+        try {
+          System.out.print("Escolha uma opcao: ");
+          opcao = scanner.nextInt();
+          scanner.nextLine(); // Limpar o buffer
+          break;
+        } catch (InputMismatchException e) {
+          EncapsulamentoAndErros.ErroEntradaInvalida();
+          scanner.nextLine(); // Limpar o buffer
+        }
+      }
 
       switch (opcao) {
         case 1:

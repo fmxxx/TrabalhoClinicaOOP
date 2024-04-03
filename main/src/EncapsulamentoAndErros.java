@@ -4,6 +4,10 @@ public class EncapsulamentoAndErros {
     System.out.println(Main.RED + "Opcao invalida! Tente novamente." + Main.RESET_COLOR);
   }
 
+  public static void ErroEntradaInvalida() {
+    System.out.println(Main.RED + "Entrada Invalida! Tente novamente." + Main.RESET_COLOR);
+  }
+
   public static String encapsularData(String input) {
     StringBuilder result = new StringBuilder();
     int posicaoNaString = 0;

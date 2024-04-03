@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -9,30 +10,37 @@ public class Paciente {
   private ArrayList<Medicamento> medicamentosUsadosAtualmente;
   private static ArrayList<RelatorioPosConsulta> listaRelatoriosPosConsulta;
 
-  // TODO: COLOCAR dados pos consulta/diagnositco, sao incializados vazios, mas
-  // dps da pra colocar um array list (so o medico coloca): FELIPE M
-
   public Paciente(int id, String nome, ArrayList<String> historicoMedico,
       ArrayList<Medicamento> medicamentosUsadosAtualmente) {
     this.id = id;
     this.nome = nome;
     this.historicoMedico = historicoMedico;
     this.medicamentosUsadosAtualmente = medicamentosUsadosAtualmente;
+    Paciente.listaRelatoriosPosConsulta = new ArrayList<>();
   }
 
   // Metodos
+  // TODO: DEIXAR OS MENUS BONITINHO
   public static void menuPaciente(Scanner scanner) {
     System.out.println(Main.BLUE + "\n ========== Menu do Paciente ==========" + Main.RESET_COLOR);
     System.out.println("1. Cadastrar Paciente");
     System.out.println("2. Ver Consultas Marcadas");
     System.out.println("3. Solicitar Consulta");
     System.out.println("4. Ver Detalhes do Paciente");
+    System.out.println("5. Ver Relatorios Pos Consulta do Paciente");
     System.out.println("0. Voltar");
-    // TODO: Opcao para remover informacoes como doencas e medicamentos usados:
-    // CUNHA
-    System.out.print("Escolha uma opcao: ");
-    int opcao = scanner.nextInt();
-    scanner.nextLine(); // Limpar o buffer
+    int opcao;
+    while (true) {
+      try {
+        System.out.print("Escolha uma opcao: ");
+        opcao = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+        break;
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
 
     switch (opcao) {
       case 1:
@@ -46,6 +54,9 @@ public class Paciente {
         break;
       case 4:
         Paciente.verDetalhesDoPaciente(scanner);
+        break;
+      case 5:
+        verRelatorios(scanner);
         break;
       case 0:
         System.err.println("Voltando...");
@@ -100,9 +111,18 @@ public class Paciente {
   }
 
   public static void verConsultasMarcadas(Scanner scanner) {
-    System.out.print("Insira o ID do paciente: ");
-    int idPaciente = scanner.nextInt();
-    scanner.nextLine(); // Limpar o buffer
+    int idPaciente;
+    while (true) {
+      try {
+        System.out.print("Insira o ID do paciente: ");
+        idPaciente = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+        break;
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
 
     for (Consulta consulta : Main.listaAgenda.getConsultasMarcadas()) {
       if (idPaciente == consulta.getIdPaciente()) {
@@ -111,7 +131,6 @@ public class Paciente {
         System.out.println("Horario: " + consulta.getHorario());
         System.out.println("Medico: " + consulta.getNomeMedico());
         System.out.println("Motivo: " + consulta.getMotivo());
-        System.out.println();
       }
     }
   }
@@ -121,12 +140,30 @@ public class Paciente {
 
     Medico.exibirMedicosDisponiveis(Main.listaMedicos);
     System.out.println();
-    System.out.print("Informe o ID do medico: ");
-    int idMedico = scanner.nextInt();
-    scanner.nextLine(); // Limpar o buffer
-    System.out.print("Informe o ID do paciente: ");
-    int idPaciente = scanner.nextInt();
-    scanner.nextLine(); // Limpar o buffer
+    int idMedico;
+    while (true) {
+      try {
+        System.out.print("Insira o ID do medico: ");
+        idMedico = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+        break;
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
+    int idPaciente;
+    while (true) {
+      try {
+        System.out.print("Insira o ID do paciente: ");
+        idPaciente = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+        break;
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
 
     // Faz um loop para o usuario reeinserir os dados se nao estiveresm no fomato
     // correto
@@ -154,9 +191,18 @@ public class Paciente {
   }
 
   public static void verDetalhesDoPaciente(Scanner scanner) {
-    System.out.print("Insira o ID do paciente: ");
-    int idPaciente = scanner.nextInt();
-    scanner.nextLine(); // Limpar o buffer
+    int idPaciente;
+    while (true) {
+      try {
+        System.out.print("Insira o ID do paciente: ");
+        idPaciente = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+        break;
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
 
     for (Paciente paciente : Main.listaPacientes) {
       if (idPaciente == paciente.getId()) {
@@ -182,13 +228,45 @@ public class Paciente {
   public static void adicionarRelatorioAoPaciente(Scanner scanner) {
     System.out.println(Main.BLUE + "\n ========== Adicionar Diagnostico ==========" + Main.RESET_COLOR);
 
-    // TODO: FAZER ENCONTRAR O PACIENTE PELO ID
-    System.out.print("Informe o ID do medico: ");
-    int idMedico = scanner.nextInt();
-    scanner.nextLine(); // Limpar o buffer
-    System.out.print("Informe o ID do paciente: ");
-    int idPaciente = scanner.nextInt();
-    scanner.nextLine(); // Limpar o buffer
+    int idMedico;
+    while (true) {
+      try {
+        System.out.print("Insira o ID do medico: ");
+        idMedico = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+        break;
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
+    int idPaciente;
+    while (true) {
+      try {
+        System.out.print("Insira o ID do paciente: ");
+        idPaciente = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+        break;
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
+
+    // Encontra o paciente pelo id
+    Paciente paciente = null;
+    for (Paciente p : Main.listaPacientes) {
+      if (p.getId() == idPaciente) {
+        paciente = p;
+        break;
+      }
+    }
+
+    // Se o paciente for null ele nao foi encontrado
+    if (paciente == null) {
+      System.out.println(Main.RED + "ERRO: Paciente com ID " + idPaciente + " nao encontrado." + Main.RESET_COLOR);
+      return;
+    }
 
     // Faz um loop para o usuario reeinserir os dados se nao estiverem no fomato
     // correto
@@ -199,12 +277,30 @@ public class Paciente {
       data = EncapsulamentoAndErros.encapsularData(temp);
     } while (data.isEmpty());
 
-    System.out.print("Batimentos Cardiacos por Minuto: ");
-    double batimentosCardiacosPorMin = scanner.nextDouble();
-    scanner.nextLine(); // Limpar o buffer
-    System.out.print("Temperatura em Celsius: ");
-    double temperaturaCelsius = scanner.nextDouble();
-    scanner.nextLine(); // Limpar o buffer
+    double batimentosCardiacosPorMin;
+    while (true) {
+      try {
+        System.out.print("Batimentos Cardiacos por Minuto: ");
+        batimentosCardiacosPorMin = scanner.nextDouble();
+        scanner.nextLine(); // Limpar o buffer
+        break; // Exit the loop if input is successful
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
+    double temperaturaCelsius;
+    while (true) {
+      try {
+        System.out.print("Temperatura em Celsius: ");
+        temperaturaCelsius = scanner.nextDouble();
+        scanner.nextLine(); // Limpar o buffer
+        break; // Exit the loop if input is successful
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
     System.out.print("Pressao Arterial: ");
     String pressaoArterial = scanner.nextLine();
 
@@ -241,8 +337,54 @@ public class Paciente {
         temperaturaCelsius,
         pressaoArterial, diagnosticos, medicamentosReceitados);
 
-    Paciente.listaRelatoriosPosConsulta.add(novoRelatorioPosConsulta);
+    paciente.adicionarRelatorio(novoRelatorioPosConsulta);
     System.out.println(Main.GREEN + "Relatorio Adicionado com sucesso!" + Main.RESET_COLOR);
+  }
+
+  public void adicionarRelatorio(RelatorioPosConsulta relatorio) {
+    Paciente.listaRelatoriosPosConsulta.add(relatorio);
+  }
+
+  public static void verRelatorios(Scanner scanner) {
+    int idPaciente;
+    while (true) {
+      try {
+        System.out.print("Insira o ID do paciente: ");
+        idPaciente = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+        break;
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
+
+    System.out.println(Main.BLUE + "\n ========== Relatorios do Paciente ==========" + Main.RESET_COLOR);
+
+    for (Paciente paciente : Main.listaPacientes) {
+      if (idPaciente == paciente.getId()) {
+        for (RelatorioPosConsulta relatorio : Paciente.getListaRelatoriosPosConsulta()) {
+          System.out.println("Data: " + relatorio.getDataDoDiagnostico());
+          System.out.println("Medico Responsavel: " + relatorio.getIdMedicoResponsavel());
+          System.out.println("Batimentos Cardiacos por Minuto: " + relatorio.getBatimentosCardiacosPorMin());
+          System.out.println("Temperatura em Celsius: " + relatorio.getTemperaturaCelsius());
+          System.out.println("Pressao Arterial: " + relatorio.getPressaoArterial());
+          System.out.println("Diagnosticos: ");
+          for (String diagnostico : relatorio.getDiagnostico()) {
+            System.out.println("- " + diagnostico);
+          }
+          System.out.println("Medicamentos Receitados: ");
+          for (Medicamento medicamento : relatorio.getMedicamentosReceitados()) {
+            System.out.println("- " + medicamento.getUso() + ", " + medicamento.getDescricao() + ", "
+                + medicamento.getPeriodoDeUso());
+          }
+          System.out.print("==============================================");
+        }
+        System.out.println();
+      }
+      return;
+    }
+    System.out.println(Main.RED + "ERRO: Paciente nao encontrado." + Main.RESET_COLOR);
   }
 
   // Getters
@@ -260,6 +402,10 @@ public class Paciente {
 
   public ArrayList<Medicamento> getMedicamentosUsadosAtualmente() {
     return medicamentosUsadosAtualmente;
+  }
+
+  public static ArrayList<RelatorioPosConsulta> getListaRelatoriosPosConsulta() {
+    return listaRelatoriosPosConsulta;
   }
 
   // Setters

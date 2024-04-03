@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -20,9 +21,18 @@ public class Medico extends Funcionario {
     System.out.println("3. Ver Detalhes do Paciente");
     System.out.println("4. Adicionar Relatorio Pos Consulta ao um Paciente");
     System.out.println("0. Voltar");
-    System.out.print("Escolha uma opcao: ");
-    int opcao = scanner.nextInt();
-    scanner.nextLine(); // Limpar o buffer
+    int opcao;
+    while (true) {
+      try {
+        System.out.print("Escolha uma opcao: ");
+        opcao = scanner.nextInt();
+        scanner.nextLine(); // Limpar Buffer
+        break;
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine(); // Limpar o buffer
+      }
+    }
 
     switch (opcao) {
       case 1:
@@ -93,7 +103,7 @@ public class Medico extends Funcionario {
       for (String convenio : medico.getConvenios()) {
         System.out.println("- " + convenio);
       }
-      System.out.print("==============================================");
+      System.out.print("==============================================\n");
     }
     System.out.println();
   }

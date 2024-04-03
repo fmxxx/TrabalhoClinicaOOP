@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Agenda {
@@ -39,9 +40,18 @@ public class Agenda {
   }
 
   public void verAgendaMedica(Scanner scanner) {
-    System.out.print("Informe o ID do medico: ");
-    int idMedico = scanner.nextInt();
-    scanner.nextLine(); // Limpar o buffer
+    int idMedico;
+    while (true) {
+      try {
+        System.out.print("Informe o ID do medico: ");
+        idMedico = scanner.nextInt();
+        scanner.nextLine(); // Limpar o buffer
+        break;
+      } catch (InputMismatchException e) {
+        EncapsulamentoAndErros.ErroEntradaInvalida();
+        scanner.nextLine();// Limpar o buffer
+      }
+    }
 
     System.out.println(Main.BLUE + "\n ========== Agenda do Medico ==========" + Main.RESET_COLOR);
     for (Consulta consulta : consultasMarcadas) {
