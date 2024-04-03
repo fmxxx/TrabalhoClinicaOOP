@@ -20,12 +20,11 @@ public class Paciente {
   }
 
   // Metodos
-  // TODO: DEIXAR OS MENUS BONITINHO
   public static void menuPaciente(Scanner scanner) {
     System.out.println(Main.BLUE + "\n ========== Menu do Paciente ==========" + Main.RESET_COLOR);
     System.out.println("1. Cadastrar Paciente");
-    System.out.println("2. Ver Consultas Marcadas");
-    System.out.println("3. Solicitar Consulta");
+    System.out.println("2. Solicitar Consulta");
+    System.out.println("3. Ver Consultas Marcadas");
     System.out.println("4. Ver Detalhes do Paciente");
     System.out.println("5. Ver Relatorios Pos Consulta do Paciente");
     System.out.println("0. Voltar");
@@ -47,10 +46,10 @@ public class Paciente {
         cadastrarPaciente(scanner);
         break;
       case 2:
-        Paciente.verConsultasMarcadas(scanner);
+        Paciente.solicitarConsulta(scanner);
         break;
       case 3:
-        Paciente.solicitarConsulta(scanner);
+        Paciente.verConsultasMarcadas(scanner);
         break;
       case 4:
         Paciente.verDetalhesDoPaciente(scanner);

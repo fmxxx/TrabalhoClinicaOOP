@@ -18,8 +18,11 @@ public class Medico extends Funcionario {
     System.out.println(Main.BLUE + "\n ========== Menu do Medico ==========" + Main.RESET_COLOR);
     System.out.println("1. Cadastrar Medico");
     System.out.println("2. Ver Agenda do Medico");
-    System.out.println("3. Ver Detalhes do Paciente");
-    System.out.println("4. Adicionar Relatorio Pos Consulta ao um Paciente");
+    System.out.println("3. Adicionar Relatorio Pos Consulta ao um Paciente");
+    System.out.println("========== Acompanhamento Dos Pacientes ==========");
+    System.out.println("4. Ver Detalhes do Paciente");
+    System.out.println("5. Ver Relatorios Pos Consulta do Paciente");
+
     System.out.println("0. Voltar");
     int opcao;
     while (true) {
@@ -42,10 +45,13 @@ public class Medico extends Funcionario {
         Main.listaAgenda.verAgendaMedica(scanner);
         break;
       case 3:
-        Paciente.verDetalhesDoPaciente(scanner);
+        Paciente.adicionarRelatorioAoPaciente(scanner);
         break;
       case 4:
-        Paciente.adicionarRelatorioAoPaciente(scanner);
+        Paciente.verDetalhesDoPaciente(scanner);
+        break;
+      case 5:
+        Paciente.verRelatorios(scanner);
         break;
       case 0:
         System.out.println("Voltando...");
